@@ -7,7 +7,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriverException;
 import utils.ConfigReader;
-import utils.PropertiesWriter;
 import utils.WebDriverSetup;
 import utils.WebDriverUtil;
 
@@ -17,12 +16,6 @@ public class Hook {
 
     static {
         LogHelper.getLogger().info("URL: " + ConfigReader.getInstance().getValue(PropertyConfigs.APP_URL));
-        PropertiesWriter writer = new PropertiesWriter(
-                System.getProperty("user.dir") + "/target/", "buildInfo.properties");
-
-        writer.setValue("URL", ConfigReader.getInstance().getValue(PropertyConfigs.APP_URL));
-        writer.setValue("Browser", WebDriverUtil.driverType);
-        writer.saveData();
     }
 
     @Before
@@ -50,14 +43,7 @@ public class Hook {
 
     @After
     public void tearDown(Scenario scenario) {
-        if (scenario.isFailed()) {
-            byte[] screen = WebDriverUtil.getScreenshot();
-            scenario.attach(screen, "image/png", "screenshot");
-            String screenshotName = WebDriverUtil.writeScreenshotToFile(screen, scenario.getName().replaceAll(" ", "_"), null);
-            LogHelper.getLogger().error("Scenario '" + scenario.getName() + "' FAILED, Screen shot: " + screenshotName);
-        } else {
-            LogHelper.getLogger().info("Scenario '" + scenario.getName() + "' PASSED");
-        }
+        LogHelper.getLogger().info("Scenario '" + scenario.getName() + "' " + scenario.getStatus().toString());
         WebDriverUtil.getDriver().manage().deleteAllCookies();
         try {
             WebDriverUtil.getDriver().quit();

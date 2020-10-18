@@ -16,7 +16,7 @@ public class ConfigReader {
     private static Properties configs = null;
     private static ConfigReader instance = null;
     private static final String DEFAULT_PROPERTIES = "config.properties";
-    private static final String CONFIG_PATH = "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+    private static final String CONFIG_PATH = "src/main/resources/";
 
     private ConfigReader() {
         configs = new Properties();
