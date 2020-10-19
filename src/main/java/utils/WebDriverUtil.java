@@ -67,4 +67,44 @@ public class WebDriverUtil {
     public static void setImplicitWait() {
         getDriver().manage().timeouts().implicitlyWait(WaitUtil.implicitWait, TimeUnit.SECONDS);
     }
+
+    public static List<WebElement> getElementsOrEmpty(WebElement parent, By locator, long timeout) {
+        getDriver().manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+        List<WebElement> temp = getElements(parent, locator);
+        setImplicitWait();
+        return temp;
+    }
+
+    public static List<WebElement> getElementsOrEmpty(WebElement parent, By locator) {
+        return getElementsOrEmpty(parent, locator, 0);
+    }
+
+    public static List<WebElement> getElementsOrEmpty(By locator, long timeout) {
+        getDriver().manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+        List<WebElement> temp = getElements(locator);
+        setImplicitWait();
+        return temp;
+    }
+
+    public static List<WebElement> getElementsOrEmpty(By locator) {
+        return getElementsOrEmpty(locator, 0);
+    }
+
+    public static void scrollToElement(WebElement element) {
+        String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
+                + "var elementTop = arguments[0].getBoundingClientRect().top;"
+                + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
+        getJsExecutor().executeScript(scrollElementIntoMiddle, element);
+    }
+
+    public static void click(WebElement element) {
+        WebDriverUtil.scrollToElement(element);
+        element.click();
+        WaitUtil.waitForPageToLoad();
+    }
+
+    public static String getValue(WebElement element) {
+        scrollToElement(element);
+        return element.getText().trim();
+    }
 }
