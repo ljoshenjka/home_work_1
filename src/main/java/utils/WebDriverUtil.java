@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class WebDriverUtil {
     private static final ThreadLocal<WebDriver> drivers = ThreadLocal.withInitial(() -> null);
@@ -106,5 +107,9 @@ public class WebDriverUtil {
     public static String getValue(WebElement element) {
         scrollToElement(element);
         return element.getText().trim();
+    }
+
+    public static List<String> getStringListFromWebElementsList(List<WebElement> elements) {
+        return elements.stream().map(WebElement::getText).map(String::trim).collect(Collectors.toList());
     }
 }

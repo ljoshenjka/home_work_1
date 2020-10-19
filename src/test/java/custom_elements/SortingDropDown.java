@@ -1,31 +1,27 @@
-package elements;
+package custom_elements;
 
 import elements.base.BaseField;
 import elements.base.ClickableField;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import utils.WaitUtil;
 import utils.WebDriverUtil;
 
 import java.util.List;
 
-/**
- * DropDown
- */
-public class DropDown extends ClickableField {
+public class SortingDropDown extends ClickableField {
 
-    public DropDown(BaseField parent, By locator) {
+    public SortingDropDown(BaseField parent, By locator) {
         super(parent, locator);
     }
 
-    public DropDown(By locator) {
+    public SortingDropDown(By locator) {
         super(locator);
     }
 
     public void setValue(String value) {
-        List<WebElement> options = WebDriverUtil.getElements(getWebElement(), By.xpath(String.format(".//option[normalize-space()='%s']", value)));
+        List<WebElement> options = WebDriverUtil.getElements(getWebElement(), By.xpath(String.format(".//li[normalize-space()='%s']", value)));
         if (options.size() == 0) {
             Assert.fail("Value not found in selection, value: " + value);
         } else {
@@ -35,7 +31,7 @@ public class DropDown extends ClickableField {
     }
 
     public void setValue(int index) {
-        List<WebElement> options = WebDriverUtil.getElements(getWebElement(), By.tagName("option"));
+        List<WebElement> options = WebDriverUtil.getElements(getWebElement(), By.tagName("li"));
         if (index > options.size()) {
             Assert.fail("Index too big for this selection, index: " + index);
         }
@@ -43,13 +39,12 @@ public class DropDown extends ClickableField {
         WaitUtil.waitForPageToLoad();
     }
 
-    public String getValue() {
-        Select select = new Select(getWebElement());
-        return select.getFirstSelectedOption().getText().trim();
-    }
-
     public List<String> getAvailableOptions() {
-        Select select = new Select(getWebElement());
-        return WebDriverUtil.getStringListFromWebElementsList(select.getOptions());
+        String previousValue = getValue();
+        click();
+        List<WebElement> options = WebDriverUtil.getElements(getWebElement(), By.tagName("li"));
+        List<String> optionNames = WebDriverUtil.getStringListFromWebElementsList(options);
+        setValue(previousValue);
+        return optionNames;
     }
 }
