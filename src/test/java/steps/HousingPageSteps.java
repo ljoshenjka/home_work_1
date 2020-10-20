@@ -25,7 +25,10 @@ public class HousingPageSteps extends BaseStep {
 
     @Then("checks that Housing page sorting options are available")
     public void checksThatHousingPageSortingOptionsAreAvailable(List<String> sortings) {
+        String previousValue = HousingPage.drpSorting.getValue();
+        HousingPage.drpSorting.click();
         Assert.assertEquals("Wrong sorting options", sortings, HousingPage.drpSorting.getAvailableOptions());
+        HousingPage.drpSorting.setValue(previousValue);
     }
 
     @When("user change Housing page sorting to {string}")

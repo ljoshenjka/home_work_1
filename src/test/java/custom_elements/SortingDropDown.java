@@ -40,11 +40,7 @@ public class SortingDropDown extends ClickableField {
     }
 
     public List<String> getAvailableOptions() {
-        String previousValue = getValue();
-        click();
         List<WebElement> options = WebDriverUtil.getElements(getWebElement(), By.tagName("li"));
-        List<String> optionNames = WebDriverUtil.getStringListFromWebElementsList(options);
-        setValue(previousValue);
-        return optionNames;
+        return WebDriverUtil.getStringListFromWebElementsList(options);
     }
 }
