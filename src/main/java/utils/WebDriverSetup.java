@@ -3,7 +3,6 @@ package utils;
 import constants.PropertyConfigs;
 import exceptions.TestException;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,7 +13,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
 
 public class WebDriverSetup {
 
@@ -23,6 +21,7 @@ public class WebDriverSetup {
         switch (driverType) {
             case PropertyConfigs.FIREFOX: {
                 WebDriverManager.firefoxdriver().setup();
+                System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
                 driver = new FirefoxDriver(getFirefoxOptions());
                 break;
             }
@@ -32,6 +31,7 @@ public class WebDriverSetup {
                 break;
             }
             case PropertyConfigs.EDGE: {
+                WebDriverManager.edgedriver().setup();
                 driver = new EdgeDriver();
                 break;
             }
