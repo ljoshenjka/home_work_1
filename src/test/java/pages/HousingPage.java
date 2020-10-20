@@ -1,6 +1,7 @@
 package pages;
 
 import custom_elements.SortingDropDown;
+import elements.Button;
 import elements.TextBox;
 import org.openqa.selenium.By;
 import utils.WebDriverUtil;
@@ -10,7 +11,9 @@ import java.util.List;
 
 public class HousingPage {
 
-    public static TextBox txbSearch = new TextBox(By.xpath("//form[@id='searchform']//input[@id='query']"));
+    public static TextBox txbSearch = new TextBox(By.xpath("//div[@class='querybox']//input[@id='query']"));
+    public static Button btnSearchSubmit = new Button(By.xpath("//div[@class='querybox']//button[@type='submit']"));
+
     public static SortingDropDown drpSorting = new SortingDropDown(By.cssSelector(".search-sort .dropdown-list"));
 
     private static final String xptHousingItem = "//div[@id='sortable-results']//li[@class='result-row' and not(preceding-sibling::h4[@class='ban nearby'])]";

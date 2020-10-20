@@ -50,4 +50,10 @@ public class HousingPageSteps extends BaseStep {
 
         Assert.assertEquals("Wrong Housing page result sorting", sortedList, obtainedList);
     }
+
+    @When("user search for {string} on Housing page")
+    public void userSearchForStringOnHousingPage(String search) {
+        HousingPage.txbSearch.setValue(search);
+        HousingPage.btnSearchSubmit.click();
+    }
 }
